@@ -1,3 +1,0 @@
-﻿  arrays.cpp
-C:\Users\shevy\Documents\School\GRCC\CIS 127 - C++ Programming I\projects\Week 5\Output numbers in reverse\arrays.cpp(26,27): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  Output numbers in reverse.vcxproj -> C:\Users\shevy\Documents\School\GRCC\CIS 127 - C++ Programming I\projects\Week 5\x64\Debug\Output numbers in reverse.exe
