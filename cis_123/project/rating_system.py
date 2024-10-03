@@ -7,9 +7,9 @@ def add_rating(reviews: dict) -> dict:
         rating = int(input('Rating needs to be between 0 and 10. Enter your rating: '))
         
     if movie in reviews:
-        reviews[movie] = (reviews[movie] + rating) / 2
+        reviews[movie] = float((reviews[movie] + rating) / 2)
     else:
-        reviews[movie] = rating
+        reviews[movie] = float(rating)
     return reviews
 
 def remove_rating(reviews: dict) -> dict:

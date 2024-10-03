@@ -1,5 +1,4 @@
 from rating_system import *
-import unittest
 
 movies_ratings = {
     "Inception": 9.0,
