@@ -33,8 +33,8 @@ def test_remove_rating(monkeypatch):
                                              'The Matrix': 8.7, 
                                              'Parasite': 8.6, 
                                              'Forrest Gump': 8.8, 
-                                             'The Godfather': 9.2, 
-                                             'Pulp Fiction': 8.9, 
+                                             'The Godfather': 9.2,
+                                             'Pulp Fiction': 8.9,
                                              'Deadpool': 10.0}
 # def test_display_ratings(capsys):
 #     display_ratings(movies_ratings)

@@ -1,30 +1,39 @@
+from tabulate import tabulate
 
 def add_rating(reviews: dict) -> dict:
-    movie = input('Enter your movie: ')
-    rating = int(input('Enter your rating: '))
+    movie = input('Enter your movie: ').title()
+    rating = float(input('Enter your rating: '))
     
+    # Checks if rating is between 0 and 10
     while rating < 0 or rating > 10:
-        rating = int(input('Rating needs to be between 0 and 10. Enter your rating: '))
-        
+        rating = float(input('Rating needs to be between 0 and 10. Enter your rating: '))
+    
+    # Checks if movie is in dictionary, adds rating to dictionary    
     if movie in reviews:
-        reviews[movie] = float((reviews[movie] + rating) / 2)
+        reviews[movie] = (reviews[movie] + rating) / 2
     else:
-        reviews[movie] = float(rating)
+        reviews[movie] = rating
     return reviews
 
 def remove_rating(reviews: dict) -> dict:
-    movie = input('Enter your movie: ')
+    movie = input('Enter your movie: ').title()
+    
+    # Checks if movie is in dictionary, removes rating from dictionary
     if movie in reviews.keys():
         del reviews[movie]
     return reviews
 
 
 def display_ratings(reviews: dict) -> None:
-    for movie, rating in reviews.items():
-        print(f'The movie: {movie} is rated: {rating}')
+    # Creates a list of movies and ratings
+    data = [[movie, rating] for movie, rating in reviews.items()]
+    
+    # Uses tabulate library to create a pretty table
+    print(tabulate(data, headers=['Movie', 'Rating'], tablefmt='fancy_grid'))
     
 
 def main():
+    # Test movie-rating pairs
     movies_ratings = {
     "Inception": 9.0,
     "The Dark Knight": 9.1,
@@ -42,6 +51,8 @@ def main():
     3. Display all ratings
     4. Exit
     '''
+    
+    # Main loop for menu
     while True:
         print(menu)
         choice = int(input('Enter your choice: '))
