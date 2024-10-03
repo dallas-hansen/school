@@ -1,7 +1,7 @@
 from tabulate import tabulate
 
 def add_rating(reviews: dict) -> dict:
-    movie = input('Enter your movie: ').title()
+    movie = input('Enter your movie: ').title() # .title() capitalizes the first letter of each word
     rating = float(input('Enter your rating: '))
     
     # Checks if rating is between 0 and 10
@@ -30,6 +30,9 @@ def display_ratings(reviews: dict) -> None:
     
     # Uses tabulate library to create a pretty table
     print(tabulate(data, headers=['Movie', 'Rating'], tablefmt='fancy_grid'))
+    
+    # for movie, rating in reviews.items():
+    #     print(f'The movie: {movie} is rated: {rating}')
     
 
 def main():
