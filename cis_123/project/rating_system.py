@@ -13,6 +13,7 @@ def add_rating(reviews: dict) -> dict:
         reviews[movie] = (reviews[movie] + rating) / 2
     else:
         reviews[movie] = rating
+    
     return reviews
 
 def remove_rating(reviews: dict) -> dict:
