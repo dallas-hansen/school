@@ -8,9 +8,12 @@ def jprint(obj):
 def main():
     response = requests.get("http://api.open-notify.org/astros.json")
     people_list = response.json()['people']
+    number_in_space = response.json()['number']
     
     person_name = ''
     craft_name = ''
+    
+    print(f'There are currently {number_in_space} people in space')
     
     for person in people_list:
         for k,v in person.items():
