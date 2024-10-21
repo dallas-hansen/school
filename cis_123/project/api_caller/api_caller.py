@@ -1,9 +1,7 @@
 import requests
 import json
-from sites import Site
-from save import *
-from decorators import separator
-from menu import *
+from classes.save import *
+from classes.menu import *
 
 def get_request(url: str) -> requests.Response:
     response = requests.get(url)
@@ -13,60 +11,8 @@ def get_request(url: str) -> requests.Response:
 def print_json(json_data: dict) -> None:
     print(json.dumps(json_data, indent=4))
 
-@separator()
-def list_sites(sites: list) -> None:
-    print('Sites:')
-    for site in sites:
-        print(f'{site.name.capitalize()}')
-
-@separator()
-def add_site(sites: list, name=None) -> None:
-    if name is None:
-        name = input('Enter site name: ').lower()
-    name = Site(name)
-    sites.append(name)
-    
-def delete_site(sites: list) -> None:
-    list_sites(sites)
-    print()
-    name = input('Enter site name: ').lower()
-    for site in sites:
-        if site.name.lower() == name:
-            name = site
-            sites.remove(name)
-            print(f'Site "{name.name.capitalize()}" deleted')
-            break
-    else:
-        print('Site not found')
-        
-def choose_site(sites: list) -> Site:
-    list_sites(sites)
-    print()
-    name = input('Enter site name: ').lower()
-    for site in sites:
-        if site.name.lower() == name:
-            name = site
-            return name
-    else:
-        return print('Site not found')
-    
-def list_endpoints(site: Site) -> None:
-    print('Endpoints:')
-    for name in site.endpoints:
-        print(f'{name.capitalize()}')
-
-def add_endpoints(site: Site) -> None:
-    name = input('Enter endpoint name: ').lower()
-    url = input('Enter endpoint url: ').lower()
-    site.endpoints[name] = url
-
-def del_endpoint(site: Site) -> None:
-    list_endpoints(site)
-    print()
-    name = input('Enter endpoint name: ').lower()
-    site.endpoints.pop(name)  
-
 def main():
+    sites = load_data('sites')
     menus = {'List Sites': list_sites,
                 'Add Site': add_site,
                 'Delete Site': delete_site,
@@ -97,9 +43,8 @@ def main():
                 menus[current_choice](sites)   
         elif current_choice.lower() == 'save':
             save_data(sites, 'sites')
+    save_data(sites, 'sites')
 
 if __name__ == "__main__":
-    sites = load_data('sites')
     main()
-    save_data(sites, 'sites')
     
