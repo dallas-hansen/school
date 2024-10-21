@@ -18,4 +18,4 @@ def save_data(data: Any, filename: str) -> None:
     with open (f'data\{filename}.pkl', 'wb') as file:
         print(f'Saving your progress...')
         pickle.dump(data, file)
-        print('Saved')
+        print('Saved successfully')

@@ -2,6 +2,7 @@ import requests
 import json
 from classes.save import *
 from classes.menu import *
+from classes.sites import *
 
 def get_request(url: str) -> requests.Response:
     response = requests.get(url)
@@ -13,18 +14,12 @@ def print_json(json_data: dict) -> None:
 
 def main():
     sites = load_data('sites')
-    menus = {'List Sites': list_sites,
-                'Add Site': add_site,
-                'Delete Site': delete_site,
-                'Choose Site': choose_site,
-                'Save': save_data}
-    
-    first_time = True
-    current_choice = None
+    menus = MainMenu()
+        
+    current_choice = make_menu(menus.menu)
     breakout_words = ['exit', 'back', 'save']
     
     while current_choice != 'exit':
-        current_choice = make_menu(menus)
         if current_choice.lower() not in breakout_words:
             
             while current_choice.lower() == 'choose site' and \
@@ -32,17 +27,14 @@ def main():
                     
                 current_choice = menus[current_choice](sites)
                 current_choice.main()
-                current_choice = make_menu(current_choice.menu())
-                # current_site = current_choice
-                # current_choice = make_menu(current_site.main())
-                print(current_choice)
+                current_choice = make_menu(current_choice.menu)
             else:
-                menus[current_choice](sites)
-            
-            if current_choice.lower() in menus:    
-                menus[current_choice](sites)   
+                print('Invalid choice')
+                current_choice = make_menu(menus.menu)
+                
         elif current_choice.lower() == 'save':
             save_data(sites, 'sites')
+        
     save_data(sites, 'sites')
 
 if __name__ == "__main__":

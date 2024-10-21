@@ -69,6 +69,10 @@ class MainMenu(Site):
     def __init__(self) -> None:
         super().__init__('Main Menu')
         self.name = 'Main Menu'
+        self.menu = {'List Sites': self.list_sites,
+                     'Add Site': self.add_site,
+                     'Delete Site': self.delete_site,
+                     'Choose Site': self.choose_site}
 
     def main(self) -> None:
         pass
