@@ -39,7 +39,7 @@ def main():
             "Edit": None,
             "Back": None,}, 
         
-        "Exit": None
+        "Exit": exit
             }
     display(menu)
 
