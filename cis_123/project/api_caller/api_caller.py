@@ -1,41 +1,47 @@
-import requests
-import json
-from classes.save import *
-from classes.menu import *
-from classes.sites import *
+from classes.save import load_data, save_data
+from classes.sites import Site
 
-def get_request(url: str) -> requests.Response:
-    response = requests.get(url)
-    return response
+def display(menu: dict) -> None:
+    while True:
+        print("\nChoose an option:")
+        options = list(menu.keys())  # Get all the options in the current menu
+        for i, option in enumerate(options, 1):
+            print(f"{i}. {option}")
+        
+        choice = input("\nEnter your choice: ")
 
-# This function prints JSON data in a more readable format
-def print_json(json_data: dict) -> None:
-    print(json.dumps(json_data, indent=4))
+        try:
+            choice = int(choice) - 1  # Convert to zero-indexed
+            selected_option = options[choice]
+            selected_value = menu[selected_option]
+            
+            if selected_option == "Back":
+                return
+            
+            elif selected_option == "Exit":
+                break
+            
+            # If the selected option is a sub-menu (i.e., a dictionary), recurse
+            elif isinstance(selected_value, dict):
+                display(selected_value)
+            else:
+                # Directly call the function
+                selected_value()
+        
+        except (ValueError, IndexError):
+            print("Invalid choice, try again.")
 
 def main():
-    sites = load_data('sites')
-    menus = MainMenu()
+    # api_classes_list = load_data("sites")
+    test = [Site("Treasury")]
+    menu = {
+        "Treasury":{
+            "Edit": None,
+            "Back": None,}, 
         
-    current_choice = make_menu(menus.menu)
-    breakout_words = ['exit', 'back', 'save']
-    
-    while current_choice != 'exit':
-        if current_choice.lower() not in breakout_words:
-            
-            while current_choice.lower() == 'choose site' and \
-                current_choice not in breakout_words:
-                    
-                current_choice = menus[current_choice](sites)
-                current_choice.main()
-                current_choice = make_menu(current_choice.menu)
-            else:
-                print('Invalid choice')
-                current_choice = make_menu(menus.menu)
-                
-        elif current_choice.lower() == 'save':
-            save_data(sites, 'sites')
-        
-    save_data(sites, 'sites')
+        "Exit": None
+            }
+    display(menu)
 
 if __name__ == "__main__":
     main()
