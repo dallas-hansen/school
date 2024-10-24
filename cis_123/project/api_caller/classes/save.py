@@ -5,11 +5,15 @@ from decorators import separator
 
 def load_data(filename: str) -> Any: 
     filepath = f'data\{filename}.pkl'
+    os.makedirs('data', exist_ok=True)
+    
     if os.path.exists(filepath):
         with open(f'{filepath}', 'rb') as file:
             data = pickle.load(file)
             return data
     else:
+        with open (f'data\{filename}.pkl', 'wb') as file:
+            pickle.dump([], file)
         data = []
         return data
 

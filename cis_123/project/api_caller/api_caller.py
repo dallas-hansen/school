@@ -1,4 +1,5 @@
 from classes import sites, save
+from classes.sites import Treasury
 
 def display(menu: dict) -> None:
     while True:
@@ -30,34 +31,41 @@ def display(menu: dict) -> None:
         except (ValueError, IndexError):
             print("Invalid choice, try again.")
 
-def add_api(api) -> None:
-    name = input('What is the name of the API you would like to add?')
-    name = sites.Site(name)
-    api.append(name)
+#TODO: create add API function
+# def add_api(api) -> None:
+#     name = input('What is the name of the API you would like to add?')
+#     name = sites.Site(name)
+#     api.append(name)
     
     
-    print('\nWhat would you like to add?\n')
+#     print('\nWhat would you like to add?\n')
     
-    def add_attributes(attribute: str) -> None:
-        pass
+#     def add_attributes(attribute: str) -> None:
+#         pass
     
-    attributes = {
-        'Url': lambda: add_attributes('Url'),
-        'Endpoints': lambda: add_attributes('Endpoints'),
-        'Parameters': lambda: add_attributes('Parameters'),
-        'Back': 'back'
-    }
-    display(attributes)
+#     attributes = {
+#         'Back': 'back',
+#         'Url': lambda: add_attributes('Url'),
+#         'Endpoints': lambda: add_attributes('Endpoints'),
+#         'Parameters': lambda: add_attributes('Parameters')
+#     }
+#     display(attributes)
+
+#TODO: create initializer
+# def initialize(api_list, name) -> None:
+#     for item in api_list:
+#         if item.name == name:
+#             return item
 
 def main():
     # api_classes_list = save.load_data("sites")
-    test = sites.Site("Treasury")
-    # api_classes_list.append(test)
+    treasury = Treasury("Treasury")
     
     menu = {
         "Treasury":{
-            "Edit": lambda: display(test.edit()),
-            "Back": None
+            "Back": None,
+            "Spending": lambda: treasury.spending_report(),
+            "Edit": lambda: display(treasury.edit())
             }, 
         # "Add API": lambda: add_api(api_classes_list),
         "Exit": exit
