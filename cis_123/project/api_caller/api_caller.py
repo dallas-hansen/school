@@ -59,7 +59,7 @@ def main():
             "Edit": lambda: display(test.edit()),
             "Back": None
             }, 
-        "Add API": lambda: add_api(api_classes_list),
+        # "Add API": lambda: add_api(api_classes_list),
         "Exit": exit
     }
     display(menu)
