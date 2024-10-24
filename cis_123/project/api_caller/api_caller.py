@@ -1,5 +1,4 @@
-from classes.save import load_data, save_data
-from classes.sites import Site
+from classes import sites, save
 
 def display(menu: dict) -> None:
     while True:
@@ -31,18 +30,40 @@ def display(menu: dict) -> None:
         except (ValueError, IndexError):
             print("Invalid choice, try again.")
 
+def add_api(api) -> None:
+    name = input('What is the name of the API you would like to add?')
+    name = sites.Site(name)
+    api.append(name)
+    
+    
+    print('\nWhat would you like to add?\n')
+    
+    def add_attributes(attribute: str) -> None:
+        pass
+    
+    attributes = {
+        'Url': lambda: add_attributes('Url'),
+        'Endpoints': lambda: add_attributes('Endpoints'),
+        'Parameters': lambda: add_attributes('Parameters'),
+        'Back': 'back'
+    }
+    display(attributes)
+
 def main():
-    # api_classes_list = load_data("sites")
-    test = [Site("Treasury")]
+    # api_classes_list = save.load_data("sites")
+    test = sites.Site("Treasury")
+    # api_classes_list.append(test)
+    
     menu = {
         "Treasury":{
-            "Edit": None,
-            "Back": None,}, 
-        
+            "Edit": lambda: display(test.edit()),
+            "Back": None
+            }, 
+        "Add API": lambda: add_api(api_classes_list),
         "Exit": exit
-            }
+    }
     display(menu)
+    # save.save_data(api_classes_list, "sites")
 
 if __name__ == "__main__":
-    main()
-    
+    main()    
