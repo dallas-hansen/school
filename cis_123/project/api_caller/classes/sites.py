@@ -8,7 +8,7 @@ class Site():
         self.name = name.lower()
         self.url = None
         self.endpoints = {}
-        self.parameters = []
+        self.parameters = {}
         self.main_menu = menu
         self.menu = {}
         self.page_size = None
@@ -116,11 +116,14 @@ class Site():
     def default_page_size(self) -> None:
         self.page_size = None
         print('Page size reset to default.')
+    
+    def current_page_size(self) -> None:
+        print(f'Current page size: {self.page_size}\n\n')
 
     def edit_page_size(self) -> None:
         print("\nPlease be reasonable with your page size.")
-        if self.parameters['page[size]']:
-            print(f'Current page size: {self.parameters["page[size]"]}', end='\n\n')
+        if 'page[size]' in self.parameters:
+            self.current_page_size()
             prompt = input('Do you want to continue? (y/n) ')
             while prompt.lower() == 'y':
                 try:
@@ -129,11 +132,23 @@ class Site():
                         break
                     else:
                         self.parameters['page[size]'] = str(page_size)
+                        self.page_size = page_size
                         break
                 except:
                     print('Invalid input. Must be an integer. \nTry again.')
         else:
             print('No page size parameter found.')
+            prompt = input('Would you like to add one? (y/n) ')
+            while prompt.lower() == 'y':
+                try:
+                    page_size = int(input('Enter page size (Enter to go back): '))
+                    if page_size == '':
+                        break
+                    else:
+                        self.page_size = page_size
+                        break
+                except:
+                    print('Invalid input. Must be an integer. \nTry again.')
             return 
 
         print(f'Page size changed to {self.parameters["page[size]"]}.', end='\n\n')
