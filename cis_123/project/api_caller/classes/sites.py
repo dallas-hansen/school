@@ -4,11 +4,12 @@ from decorators import box_decorator
 
 class Site():
     
-    def __init__(self, name):
+    def __init__(self, name, menu={}):
         self.name = name.lower()
         self.url = None
         self.endpoints = {}
         self.parameters = []
+        self.main_menu = menu
         self.menu = {}
         self.page_size = None
         self.data = []
@@ -51,8 +52,9 @@ class Site():
             print("Site reset successfully.", end='\n\n')
         
     def change_name(self) -> None:
-        new_name = input("Enter new name: ")
-        self.name = new_name.lower()
+        name = input("Enter new name: ")
+        self.name = name.lower()
+        self.main_menu[name] = self.name
         print("Name changed successfully.")
 
     def change_url(self) -> None:
@@ -109,7 +111,7 @@ class Site():
     
     #TODO: create a way to use the api to populate the parameters
     def populate_parameters(self) -> None:
-        print('This feature is not yet supported.')
+        print('This feature is not yet implemented.')
     
     def default_page_size(self) -> None:
         self.page_size = None
@@ -136,7 +138,7 @@ class Site():
 class Treasury(Site):
     def __init__(self, name):
         super().__init__(name)
-        self.menu = {
+        self.sub_menu = {
             "Back": 'back',
             "Spending": self.spending_report,
             "Edit": super().edit()
