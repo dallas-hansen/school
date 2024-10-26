@@ -36,7 +36,7 @@ class Site():
                 "Advanced" : {
                     "Back": 'back',
                     "Default page size": self.default_page_size,
-                    "Edit page size": self.page_size
+                    "Edit page size": self.edit_page_size
                     }
                 },
             "Reset": self.reset
@@ -115,8 +115,9 @@ class Site():
     
     def default_page_size(self) -> None:
         self.page_size = None
+        print('Page size reset to default.')
 
-    def page_size(self) -> None:
+    def edit_page_size(self) -> None:
         print("\nPlease be reasonable with your page size.")
         if self.parameters['page[size]']:
             print(f'Current page size: {self.parameters["page[size]"]}', end='\n\n')
@@ -133,6 +134,9 @@ class Site():
                     print('Invalid input. Must be an integer. \nTry again.')
         else:
             print('No page size parameter found.')
+            return 
+
+        print(f'Page size changed to {self.parameters["page[size]"]}.', end='\n\n')
     
         
 class Treasury(Site):
