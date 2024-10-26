@@ -1,12 +1,12 @@
-from classes import sites, save
 from classes.sites import Treasury
+from classes.save import save_data, load_data
 
 def display(menu: dict) -> None:
     while True:
         print("\nChoose an option:")
         options = list(menu.keys())  # Get all the options in the current menu
         for i, option in enumerate(options, 1):
-            print(f"{i}. {option}")
+            print(f"{i}. {option.capitalize()}")
         
         choice = input("\nEnter your choice: ")
 
@@ -52,26 +52,27 @@ def display(menu: dict) -> None:
 #     display(attributes)
 
 #TODO: create initializer
-# def initialize(api_list, name) -> None:
-#     for item in api_list:
-#         if item.name == name:
-#             return item
+def initialize_menu(api_class_list) -> dict:
+    menu = {}
+    # initializes menu
+    for site in api_class_list:
+        print(site.name)
+        menu[site.name.capitalize()] = site.menu
+    
+    menu["Save"] = lambda: save_data(api_class_list, "sites")
+    menu["Exit"] = exit
+    return menu
 
 def main():
-    # api_classes_list = save.load_data("sites")
-    treasury = Treasury("Treasury")
+    api_classes_list = load_data("sites")
+    # api_classes_list = []
+    # treasury = Treasury("Treasury")
+    # api_classes_list.append(treasury)
     
-    menu = {
-        "Treasury":{
-            "Back": None,
-            "Spending": lambda: treasury.spending_report(),
-            "Edit": lambda: display(treasury.edit())
-            }, 
-        # "Add API": lambda: add_api(api_classes_list),
-        "Exit": exit
-    }
+    menu = initialize_menu(api_classes_list)
+    
     display(menu)
-    # save.save_data(api_classes_list, "sites")
+    save_data(api_classes_list, "sites")
 
 if __name__ == "__main__":
     main()    

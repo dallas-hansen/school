@@ -18,8 +18,12 @@ def load_data(filename: str) -> Any:
         return data
 
 @separator()
-def save_data(data: Any, filename: str) -> None:
+def save_data(data: Any, filename: str, message: str = None) -> None:
     with open (f'data\{filename}.pkl', 'wb') as file:
-        print(f'Saving your progress...')
-        pickle.dump(data, file)
-        print('Saved successfully')
+        if message:
+            pickle.dump(data, file)
+            print(f'{message} saved successfully')
+        else:
+            print(f'Saving your progress...')
+            pickle.dump(data, file)
+            print('Saved successfully')
