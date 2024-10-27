@@ -117,6 +117,22 @@ class Site():
         self.page_size = None
         print('Page size reset to default.')
     
+    #TODO: create max page size feature
+    def find_max_page_size(self) -> None:
+        print('This feature is not yet implemented.')
+        # if not self.page_size:
+        #     prompt = input('Do you know the maximum page size that the API allows? (y/n) ')
+        #     while prompt.lower() == 'y':
+        #         try:
+        #             max_page_size = input('Enter the maximum page size (Hit enter to default 100): ')
+        #             if max_page_size == '':
+        #                 break
+        #             else:
+        #                 self.page_size = int(max_page_size)
+        #                 break
+        #         except:
+        #             print('Invalid input. Try again.')
+    
     def current_page_size(self) -> None:
         print(f'Current page size: {self.page_size}\n\n')
 
