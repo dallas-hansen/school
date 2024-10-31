@@ -18,6 +18,13 @@ class Site():
         return input_list
     
     def edit(self):
+        """
+        Creates a menu for editing a site.
+        To add more menu options, create the function and add it to the sub_menu dictionary.
+        Follow the format shown below. Use nested dictionaries to create sub menus.
+        
+        Returns: None
+        """
         menu = {
             "Back": 'back',
             "Change name": self.change_name,
@@ -168,7 +175,6 @@ class Site():
 
         print(f'Page size changed to {self.parameters["page[size]"]}.', end='\n\n')
     
-        
 class Treasury(Site):
     def __init__(self, name):
         super().__init__(name)
