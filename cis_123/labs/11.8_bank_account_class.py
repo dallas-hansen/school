@@ -5,30 +5,30 @@ class BankAccount:
         self.checking_balance = checking_balance
         self.savings_balance = savings_balance
     
-    def ispositive(self, amount):
+    def is_positive(self, amount):
         if amount > 0:
             return True
         else:
             return False        
         
     def checking_deposit(self, amount):
-        if self.ispositive(amount):
+        if self.is_positive(amount):
             self.checking_balance += amount
 
     def savings_deposit(self, amount):
-        if self.ispositive(amount):
+        if self.is_positive(amount):
             self.savings_balance += amount
 
     def checking_withdraw(self, amount):
-        if self.ispositive(amount):
+        if self.is_positive(amount):
             self.checking_balance -= amount
 
     def savings_withdraw(self, amount):
-        if self.ispositive(amount):
+        if self.is_positive(amount):
             self.savings_balance -= amount
 
     def transfer_to_checking(self, amount):
-        if self.ispositive(amount):
+        if self.is_positive(amount):
             self.savings_balance -= amount
             self.checking_balance += amount
 

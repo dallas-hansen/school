@@ -43,17 +43,28 @@ class FancyCar:
     # checking that miles_to_drive is positive
     def drive(self, miles_to_drive):
         # Type your code here and remove the return statement
-        if miles_to_drive > 0:
-            self.odometer = self.odometer + miles_to_drive
-            self.gas_tank -= (miles_to_drive / self.mpg)
+        if self.engine_on:
+            if miles_to_drive > 0:
+                gallons_needed = (miles_to_drive / self.mpg)
+                if self.gas_tank >= gallons_needed:
+                    self.gas_tank -= gallons_needed
+                    self.odometer += miles_to_drive
+                else:
+                    self.odometer += (self.gas_tank * self.mpg)
+                    self.gas_tank = 0
+                    self.engine_on = False
+            
 
     # Add gas to tank. Check for positive value of amount to add
     def add_gas(self, amount_to_add):
+        if not self.engine_on:
         # Type your code here and remove the return statement
-        amount_to_add = float(amount_to_add)
-        if amount_to_add > 0:
-            if self.gas_tank + amount_to_add <= FULL_TANK:
-                self.gas_tank += amount_to_add
+            amount_to_add = float(amount_to_add)
+            if amount_to_add > 0:
+                if self.gas_tank + amount_to_add <= FULL_TANK:
+                    self.gas_tank += amount_to_add
+                else:
+                    self.gas_tank = FULL_TANK
 
     # Set boolean variable to True
     def start_engine(self):
@@ -65,7 +76,7 @@ class FancyCar:
         # Type your code here and remove the return statement
         self.engine_on = False
 
-if __name__ == '__main__':
+def main():
     my_car = FancyCar()
 
     # Just for initial testing
@@ -73,3 +84,6 @@ if __name__ == '__main__':
     print(f"mpg={my_car.get_mpg()}")
     print(f"odometer={my_car.check_odometer()}")
     print(f"gas_tank={my_car.check_gas_gauge()}")
+
+if __name__ == '__main__':
+    main()
