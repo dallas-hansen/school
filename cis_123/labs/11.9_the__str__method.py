@@ -3,6 +3,8 @@ class Number:
         self.num = 0
 
     # TODO: define your __str__() instance method here
+    def __str__(self):
+        return f'The value is {int(self.num)}'
     
     def get_num(self):
         return self.num
