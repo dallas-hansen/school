@@ -1,32 +1,34 @@
+# TODO: Define BankAccount class
 class BankAccount:
-    def __init__(self, new_name, ch_balance, s_balance):
-        self.name = new_name
-        self.checking_balance = ch_balance
-        self.savings_balance = s_balance
+    def __init__(self, name, checking_balance, savings_balance):
+        self.name = name
+        self.checking_balance = checking_balance
+        self.savings_balance = savings_balance
     
-    # TODO: Define checking_deposit()
+    def is_positive(self, amount):
+        if amount > 0:
+            return True
+        else:
+            return False        
+        
     def checking_deposit(self, amount):
-        if amount > 0:
+        if self.is_positive(amount):
             self.checking_balance += amount
-    
-    # TODO: Define savings_deposit()
+
     def savings_deposit(self, amount):
-        if amount > 0:
+        if self.is_positive(amount):
             self.savings_balance += amount
-    
-    # TODO: Define checking_withdraw()
+
     def checking_withdraw(self, amount):
-        if amount > 0:
+        if self.is_positive(amount):
             self.checking_balance -= amount
-    
-    # TODO: Define savings_withdraw()
+
     def savings_withdraw(self, amount):
-        if amount > 0:
+        if self.is_positive(amount):
             self.savings_balance -= amount
-    
-    # TODO: Define transfer_to_checking()
+
     def transfer_to_checking(self, amount):
-        if amount > 0:
+        if self.is_positive(amount):
             self.savings_balance -= amount
             self.checking_balance += amount
 

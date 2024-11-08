@@ -1,27 +1,27 @@
 class Student:
 
-    def __init__(self, name='Louie', id='000000', gpa=0.0):
-        self.name = name
-        self.id = id
-        self.gpa = gpa
+    def __init__(self):
+        self.__name = ''
+        self.__id = ''
+        self.__gpa = 0.0
 
     def get_name(self):
-        return self.name
+        return self.__name
 
     def get_id(self):
-        return self.id
+        return self.__id
 
     def get_gpa(self):
-        return self.gpa
+        return self.__gpa
 
     def set_name(self, name):
-        self.name = name    
+        self.__name = name
 
     def set_id(self, id):
-        self.id = id
+        self.__id = id
 
     def set_gpa(self, gpa):
-        self.gpa = gpa
+        self.__gpa = gpa
     
 
 if __name__ == "__main__":
