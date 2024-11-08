@@ -1,4 +1,8 @@
-def display(menu: dict) -> None:
+def display(menu: dict) -> str | None:
+    """
+    Displays the menu and returns the selected option.
+    """
+    
     while True:
         print("\nChoose an option:")
         options = list(menu.keys())  # Get all the options in the current menu
