@@ -33,3 +33,6 @@ def display(menu: dict) -> str | None:
         
         except (ValueError, IndexError):
             print("Invalid choice, try again.")
+            
+def visualize_data(data: dict) -> None:
+    pass
