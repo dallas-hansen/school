@@ -4,7 +4,7 @@ from functions.display import display
 
 #TODO: create add API function
 def add_api(api) -> None:
-    print('This feature is not yet implemented.')
+    print('This feature is not yet: implemented.')
 
 def initialize_menu(api_class_list) -> dict:
     menu = {}
