@@ -1,7 +1,7 @@
 from classes.save import save_data
 from decorators import box_decorator
 
-class Site():
+class Api_site():
     
     def __init__(self, name, menu={}):
         self.name = name.lower()

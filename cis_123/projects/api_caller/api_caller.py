@@ -1,4 +1,5 @@
-from classes.sites import Treasury, Site
+from classes.api_sites import Api_site
+from classes.treasury import Treasury
 from classes.save import save_data, load_data
 from functions.display import display
 
@@ -10,7 +11,7 @@ def initialize_menu(api_class_list) -> dict:
     menu = {}
     # initializes menu
     for site in api_class_list:
-        menu[site.name.capitalize()] = site.menu
+        menu[site.name.capitalize()] = site.sub_menu
     
     menu["Add"] = lambda: add_api(menu)
     menu["Save"] = lambda: save_data(api_class_list, "sites")
@@ -18,7 +19,10 @@ def initialize_menu(api_class_list) -> dict:
     return menu
 
 def main():
-    api_classes_list = load_data("sites")
+    # TODO: Add support for more APIs
+    # api_classes_list = load_data("sites")
+    treasury = Treasury("treasury")
+    api_classes_list = [treasury]
     
     menu = initialize_menu(api_classes_list)
     
