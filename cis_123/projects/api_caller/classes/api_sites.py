@@ -1,5 +1,7 @@
 from classes.save import save_data
 from decorators import box_decorator
+from functions.display import display
+from classes.data import Data
 
 class Api_site():
     
@@ -17,6 +19,14 @@ class Api_site():
     def list_items(self, input_list: list) -> None:
         return input_list
     
+    # TODO: Add search function
+    def search(self):
+        """Takes in a query and returns the results.
+        Checks to see if the query has already been searched.
+        If it has, returns the results.
+        If it hasn't, searches the API for the query and returns the results."""
+        pass
+    
     def edit(self):
         """
         Creates a menu for editing a site.
@@ -31,14 +41,18 @@ class Api_site():
             "Change url": self.change_url,
             "Edit endpoints": {
                 "Back": 'back',
+                "List endpoints": self.view_endpoints,
                 "Add endpoints": self.add_endpoints,
-                "Remove endpoints": self.remove_endpoints
+                "Remove endpoints": self.remove_endpoints,
+                "Modify endpoints": self.edit_endpoints
                 },
             "Edit parameters": {
                 "Back": 'back',
                 "Auto Search": self.populate_parameters,
+                "List parameters": self.view_parameters,
                 "Add parameters": self.add_parameters,
                 "Remove parameters": self.remove_parameters,
+                "Modify parameters": self.edit_parameters,
                 "Advanced" : {
                     "Back": 'back',
                     "Default page size": self.default_page_size,
@@ -87,11 +101,19 @@ class Api_site():
             print("URL changed successfully.")
         else:
             print("URL not changed.")
+    
+    def view_endpoints(self) -> None:
+        print(f'\nCurrent endpoints:')
+        for endpoint, url in self.endpoints.items():
+            print(f'  {endpoint}: {url}')
+    
+    def view_parameters(self) -> None:
+        print(f'\nCurrent parameters:')
+        for parameter, value in self.parameters.items():
+            print(f'  {parameter}: {value}')
 
     def add_endpoints(self) -> None:
-        print(f'Current endpoints:')
-        for endpoint in self.endpoints:
-            print(f'  {endpoint}')
+        self.view_endpoints()
         
         if self.are_you_sure():
             while True:
@@ -106,9 +128,7 @@ class Api_site():
             print("Endpoint not added.")
     
     def remove_endpoints(self) -> None:
-        print('Current endpoints:')
-        for endpoint in self.endpoints:
-            print(f'  {endpoint}')
+        self.view_endpoints()
             
         if self.are_you_sure():    
             while True:
@@ -126,15 +146,29 @@ class Api_site():
         else:
             print('Endpoint not removed.')
     
+    def edit_endpoints(self) -> None:
+        print('Which endpoint would you like to edit?')
+        
+        while True:
+            self.view_endpoints()
+            endpoint_to_edit = display(self.endpoints, return_key=True)
+            
+            if self.are_you_sure():
+                self.endpoints[endpoint_to_edit] = input('Enter new value: ')
+                print('Endpoint modified successfully.')
+            choice = input('Do you want to modify another endpoint? (y/n) ')
+            if choice.lower() != "y":
+                return
+    
+    
     def add_parameters(self) -> None:
-        print(f'Current parameters:')
-        for parameter in self.parameters:
-            print(f'  {parameter}')
+        self.view_parameters()
         
         if self.are_you_sure():
             while True:
                 new_parameter = input("\nEnter new parameter: ")
-                self.parameters.append(new_parameter)
+                parameter_value = input("Enter value of new parameter: ")
+                self.parameters[new_parameter] = parameter_value
                 print("Parameter added successfully.")
                 choice = input("Do you want to add another parameter? (y/n) ")
                 if choice.lower() == "n":
@@ -143,9 +177,7 @@ class Api_site():
             print("Parameter not added.")
     
     def remove_parameters(self) -> None:
-        print('Current parameters:')
-        for parameter in self.parameters:
-            print(f'  {parameter}')
+        self.view_parameters()
 
         if self.are_you_sure():
             while True:
@@ -162,6 +194,20 @@ class Api_site():
                     return
         else:
             print('Parameter not removed.')
+    
+    def edit_parameters(self) -> None:
+        print('Which parameter would you like to edit?')
+        
+        while True:
+            self.view_parameters()
+            parameter_to_edit = display(self.parameters, return_key=True)
+            
+            if self.are_you_sure():
+                self.parameters[parameter_to_edit] = input('Enter new value: ')
+                print('Parameter modified successfully.')
+            choice = input('Do you want to modify another parameter? (y/n) ')
+            if choice.lower() != "y":
+                return
     
     #TODO: create a way to use the api to populate the parameters
     def populate_parameters(self) -> None:

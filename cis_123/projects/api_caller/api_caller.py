@@ -20,9 +20,9 @@ def initialize_menu(api_class_list) -> dict:
 
 def main():
     # TODO: Add support for more APIs
-    # api_classes_list = load_data("sites")
-    treasury = Treasury("treasury")
-    api_classes_list = [treasury]
+    api_classes_list = load_data("sites")
+    # treasury = Treasury("treasury")
+    # api_classes_list = [treasury]
     
     menu = initialize_menu(api_classes_list)
     

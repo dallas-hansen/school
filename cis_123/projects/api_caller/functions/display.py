@@ -1,4 +1,4 @@
-def display(menu: dict) -> str | None:
+def display(menu: dict, return_key=False) -> str | None:
     """
     Displays the menu and returns the selected option.
     """
@@ -26,7 +26,10 @@ def display(menu: dict) -> str | None:
             elif isinstance(selected_value, dict):
                 display(selected_value)
             elif isinstance(selected_value, str):
-                return selected_value
+                if return_key:
+                    return selected_option
+                else:
+                    return selected_value
             else:
                 # Directly call the function
                 selected_value()
