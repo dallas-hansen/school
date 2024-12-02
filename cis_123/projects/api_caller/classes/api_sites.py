@@ -49,6 +49,18 @@ class Api_site():
             }
         return menu
     
+    def are_you_sure(self) -> bool:
+        while True:
+            choice = input('Are you sure you want to continue? (y/n) ').lower()
+            try:
+                if choice == 'y':
+                    return True
+                elif choice == 'n':
+                    return False
+            except:
+                print('Invalid input. Try again.')
+                continue
+    
     def reset(self) -> None:
         print("WARNING: This will reset all changes made to this site.")
         print("You will lose all data associated with this site.")
@@ -58,62 +70,98 @@ class Api_site():
             print("Site reset successfully.", end='\n\n')
         
     def change_name(self) -> None:
-        name = input("Enter new name: ")
-        self.name = name.lower()
-        self.main_menu[name] = self.name
-        print("Name changed successfully.")
+        print(f"Current name: {self.name}")
+        if self.are_you_sure():
+            name = input("Enter new name: ")
+            self.name = name.lower()
+            self.main_menu[name] = self.name
+            print("Name changed successfully.")
+        else:
+            print("Name not changed.")
 
     def change_url(self) -> None:
-        new_url = input("Enter new url: ")
-        self.url = new_url
-        print("URL changed successfully.")
+        print(f"Current url: {self.url}")
+        if self.are_you_sure():
+            new_url = input("Enter new url: ")
+            self.url = new_url
+            print("URL changed successfully.")
+        else:
+            print("URL not changed.")
 
     def add_endpoints(self) -> None:
-        while True:
-            new_endpoint = input("\nEnter name of new endpoint: ")
-            new_endpoint_url = input("Enter url of new endpoint: ")
-            self.endpoints[new_endpoint] = new_endpoint_url
-            print("Endpoint added successfully.")
-            choice = input("Do you want to add another endpoint? (y/n) ")
-            if choice.lower() == "n":
-                return
+        print(f'Current endpoints:')
+        for endpoint in self.endpoints:
+            print(f'  {endpoint}')
+        
+        if self.are_you_sure():
+            while True:
+                new_endpoint = input("\nEnter name of new endpoint: ")
+                new_endpoint_url = input("Enter url of new endpoint: ")
+                self.endpoints[new_endpoint] = new_endpoint_url
+                print("Endpoint added successfully.")
+                choice = input("Do you want to add another endpoint? (y/n) ")
+                if choice.lower() == "n":
+                    return
+        else:
+            print("Endpoint not added.")
     
     def remove_endpoints(self) -> None:
-        while True:
-            print('\nList of current endpoints:')
-            self.list_items(self.endpoints)
-            choice = input('Enter the name of the endpoint you want to remove: ')
-            if choice in self.endpoints:
-                self.endpoints.pop(choice)
-                print('Endpoint removed successfully.')
-            else:
-                print('Endpoint not found.')
-            choice = input('Do you want to remove another endpoint? (y/n) ')
-            if choice.lower() == "n":
-                return
+        print('Current endpoints:')
+        for endpoint in self.endpoints:
+            print(f'  {endpoint}')
+            
+        if self.are_you_sure():    
+            while True:
+                print('\nList of current endpoints:')
+                self.list_items(self.endpoints)
+                choice = input('Enter the name of the endpoint you want to remove: ')
+                if choice in self.endpoints:
+                    self.endpoints.pop(choice)
+                    print('Endpoint removed successfully.')
+                else:
+                    print('Endpoint not found.')
+                choice = input('Do you want to remove another endpoint? (y/n) ')
+                if choice.lower() == "n":
+                    return
+        else:
+            print('Endpoint not removed.')
     
     def add_parameters(self) -> None:
-        while True:
-            new_parameter = input("\nEnter new parameter: ")
-            self.parameters.append(new_parameter)
-            print("Parameter added successfully.")
-            choice = input("Do you want to add another parameter? (y/n) ")
-            if choice.lower() == "n":
-                return
+        print(f'Current parameters:')
+        for parameter in self.parameters:
+            print(f'  {parameter}')
+        
+        if self.are_you_sure():
+            while True:
+                new_parameter = input("\nEnter new parameter: ")
+                self.parameters.append(new_parameter)
+                print("Parameter added successfully.")
+                choice = input("Do you want to add another parameter? (y/n) ")
+                if choice.lower() == "n":
+                    return
+        else:
+            print("Parameter not added.")
     
     def remove_parameters(self) -> None:
-        while True:
-            print('\nList of current parameters:')
-            self.list_items(self.parameters)
-            choice = input('Enter the name of the parametersyou want to remove: ')
-            if choice in self.parameters:
-                self.parameters.remove(choice)
-                print('Parameter removed successfully.\n')
-            else:
-                print('Parameter not found.\n')
-            choice = input('Do you want to remove another parameter? (y/n) ')
-            if choice.lower() == "n":
-                return
+        print('Current parameters:')
+        for parameter in self.parameters:
+            print(f'  {parameter}')
+
+        if self.are_you_sure():
+            while True:
+                print('\nList of current parameters:')
+                self.list_items(self.parameters)
+                choice = input('Enter the name of the parametersyou want to remove: ')
+                if choice in self.parameters:
+                    self.parameters.remove(choice)
+                    print('Parameter removed successfully.\n')
+                else:
+                    print('Parameter not found.\n')
+                choice = input('Do you want to remove another parameter? (y/n) ')
+                if choice.lower() == "n":
+                    return
+        else:
+            print('Parameter not removed.')
     
     #TODO: create a way to use the api to populate the parameters
     def populate_parameters(self) -> None:
