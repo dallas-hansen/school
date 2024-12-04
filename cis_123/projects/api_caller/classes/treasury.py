@@ -8,7 +8,8 @@ class Treasury(Api_site):
         self.parameters = {
                 'page[size]': '5000',
                 'page[number]': '1',
-                'filter': 'record_date:gte: 2023-01-01',
+                'sort': None,
+                'filter': 'record_date:gte:2023-01-01',
                 'format': 'csv'
             }
         self.endpoints = {'Operating Cash':'/v1/accounting/dts/deposits_withdrawals_operating_cash'}
@@ -18,6 +19,7 @@ class Treasury(Api_site):
             "Back": 'back',
             "Spending": self.spending_report,
             "Departments": self.view_departments,
+            "Search": super().search,
             "Edit": super().edit()
             }
      

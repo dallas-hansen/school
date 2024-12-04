@@ -2,6 +2,7 @@ from classes.save import save_data
 from decorators import box_decorator
 from functions.display import display
 from classes.data import Data
+from datetime import datetime
 
 class Api_site():
     
@@ -18,16 +19,56 @@ class Api_site():
     @box_decorator
     def list_items(self, input_list: list) -> None:
         return input_list
-    
-    # TODO: Add search function
-    def search(self):
+ 
+    def search(self) -> Data:
         """Takes in a query and returns the results.
         Checks to see if the query has already been searched.
         If it has, returns the results.
         If it hasn't, searches the API for the query and returns the results."""
-        pass
+        
+        # verifies that the parameters are correct, if not, allows user to edit
+        self.view_parameters()
+        parameters = self.parameters
+        proceed = input('Are these parameters correct? (y/n)')
+        if proceed.lower() == 'n':
+            while True:
+                print('\nPlease select a parameter to edit.')
+                key = display(parameters, return_key=True)
+                print('Refer to API documentation for possible values.')
+                value = input('Enter new value: ')
+                parameters[key] = value
+                for key, value in parameters.items():
+                    print(f'{key}: {value}')
+                proceed = input('Are these parameters correct? (y/n)').lower()
+                if proceed == 'y':
+                    break
+        
+        # user selects endpoint
+        print('Which endpoint would you like to search?')
+        endpoint = display(self.endpoints)
+        url = self.url + endpoint
+        query = Data(url=url, params=parameters)
+        
+        # checks to see if data already exists
+        for item in self.data:
+            print(item.rows)
+            if item.params == query.params and item.url == query.url:
+                item.last_accessed = datetime.now()
+                print('Data already exists.')
+                print(f'Last accessed: {item.last_accessed}')
+                print(f'Total entries: {item.rows}')
+                choice = input('Do you want to use this data? (y/n) ').lower()
+                if choice == 'n':
+                    break
+                return item
+        
+        print('Searching...')
+        query.search()
+        print('Search complete.')
+        self.data.append(query)
+        return query
     
-    def edit(self):
+    def edit(self) -> dict:
         """
         Creates a menu for editing a site.
         To add more menu options, create the function and add it to the sub_menu dictionary.
@@ -50,9 +91,10 @@ class Api_site():
                 "Back": 'back',
                 "Auto Search": self.populate_parameters,
                 "List parameters": self.view_parameters,
-                "Add parameters": self.add_parameters,
-                "Remove parameters": self.remove_parameters,
-                "Modify parameters": self.edit_parameters,
+                "Modify parameters": {
+                    "Edit parameters": self.edit_parameters,
+                    "Add parameters": self.add_parameters,
+                    "Remove parameters": self.remove_parameters},
                 "Advanced" : {
                     "Back": 'back',
                     "Default page size": self.default_page_size,
@@ -78,9 +120,12 @@ class Api_site():
     def reset(self) -> None:
         print("WARNING: This will reset all changes made to this site.")
         print("You will lose all data associated with this site.")
-        print("Are you sure you want to continue? (y/n) ")
-        if input().lower() == "y":
-            self.__init__(self.name)
+        if self.are_you_sure():
+            self.name = None
+            self.url = None
+            self.endpoints = {}
+            self.parameters = {}
+            self.page_size = None
             print("Site reset successfully.", end='\n\n')
         
     def change_name(self) -> None:
@@ -160,7 +205,7 @@ class Api_site():
             if choice.lower() != "y":
                 return
     
-    
+    # TODO: Add support to select possible parameter options from a list
     def add_parameters(self) -> None:
         self.view_parameters()
         
@@ -179,21 +224,18 @@ class Api_site():
     def remove_parameters(self) -> None:
         self.view_parameters()
 
-        if self.are_you_sure():
-            while True:
-                print('\nList of current parameters:')
-                self.list_items(self.parameters)
-                choice = input('Enter the name of the parametersyou want to remove: ')
-                if choice in self.parameters:
-                    self.parameters.remove(choice)
-                    print('Parameter removed successfully.\n')
-                else:
-                    print('Parameter not found.\n')
-                choice = input('Do you want to remove another parameter? (y/n) ')
-                if choice.lower() == "n":
-                    return
-        else:
-            print('Parameter not removed.')
+        print('Which parameter would you like to remove?')
+        
+        while True:
+            self.view_parameters()
+            parameter_to_edit = display(self.parameters, return_key=True)
+            
+            if self.are_you_sure():
+                self.parameters[parameter_to_edit] = None
+                print('Parameter removed.')
+            choice = input('Do you want to remove another parameter? (y/n) ')
+            if choice.lower() != "y":
+                return
     
     def edit_parameters(self) -> None:
         print('Which parameter would you like to edit?')
