@@ -14,7 +14,8 @@ class Api_site():
         self.main_menu = menu
         self.menu = {}
         self.page_size = None
-        self.data = []
+        self.data = {}
+        self.selected_df =None
     
     @box_decorator
     def list_items(self, input_list: list) -> None:
@@ -60,12 +61,16 @@ class Api_site():
                 choice = input('Do you want to use this data? (y/n) ').lower()
                 if choice == 'n':
                     break
+                print('Using existing data.')
+                self.selected_df = item
                 return item
         
         print('Searching...')
         query.search()
         print('Search complete.')
-        self.data.append(query)
+        print('Current selection updated.')
+        self.selected_df = query
+        self.data[query.last_accessed] = query
         return query
     
     def edit(self) -> dict:

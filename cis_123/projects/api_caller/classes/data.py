@@ -40,7 +40,6 @@ class Data:
             },
             "Data": {
                 "Back": 'back',
-                "View all": self.view_data,
                 "View size": self.view_data_size
             }
         }
@@ -108,6 +107,3 @@ class Data:
     
     def view_data_size(self):
         print(f'Total entries in dataset: {self.rows}')
-    
-    def view_data(self):
-        print(self.df.describe())
