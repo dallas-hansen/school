@@ -25,7 +25,9 @@ class Treasury(Api_site):
             }
     
     def select_data(self) -> None:
-        self.selected_df = display(self.data)
+        back = {'Back': 'back'}
+        combined_data = back | self.data
+        self.selected_df = display(combined_data)
         return
     
     def view_data(self):

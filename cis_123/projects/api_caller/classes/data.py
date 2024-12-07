@@ -19,7 +19,6 @@ from functions.display import display
 @dataclass
 class Data:
     url: str
-    rows: int = 0
     df: pd.DataFrame = None
     last_accessed: datetime = None
     params: dict = field(default_factory=dict)
@@ -33,11 +32,6 @@ class Data:
         self.sub_menu = {
             "Back": 'back',
             "Search": self.search,
-            "Parameters": {
-                "Back": 'back',
-                "List parameters": self.list_parameters,
-                "Edit parameters": self.edit_parameters
-            },
             "Data": {
                 "Back": 'back',
                 "View size": self.view_data_size
@@ -97,13 +91,5 @@ class Data:
 
         return
     
-    def list_parameters(self):
-        for item in self.params:
-            print(item)
-    
-    def edit_parameters(self, params):
-        choice = display(params)
-        self.params = params
-    
     def view_data_size(self):
-        print(f'Total entries in dataset: {self.rows}')
+        print(f'Total entries in dataset: {self.df.shape[0]}')

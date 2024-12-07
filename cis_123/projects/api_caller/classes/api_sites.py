@@ -40,8 +40,9 @@ class Api_site():
                 parameters[key] = value
                 for key, value in parameters.items():
                     print(f'{key}: {value}')
-                proceed = input('Are these parameters correct? (y/n)').lower()
+                proceed = input('Are these parameters correct? (y/n)\n').lower()
                 if proceed == 'y':
+                    print()
                     break
         
         # user selects endpoint
@@ -51,7 +52,7 @@ class Api_site():
         query = Data(url=url, params=parameters)
         
         # checks to see if data already exists
-        for item in self.data:
+        for key, item in self.data.items():
             print(item.rows)
             if item.params == query.params and item.url == query.url:
                 item.last_accessed = datetime.now()
@@ -70,7 +71,10 @@ class Api_site():
         print('Search complete.')
         print('Current selection updated.')
         self.selected_df = query
-        self.data[query.last_accessed] = query
+        param_str = ''
+        for key, item in query.params.items():
+            param_str += f'{key}: {item}\n'
+        self.data[param_str] = query
         return query
     
     def edit(self) -> dict:
@@ -157,10 +161,13 @@ class Api_site():
         for endpoint, url in self.endpoints.items():
             print(f'  {endpoint}: {url}')
     
-    def view_parameters(self) -> None:
+    def view_parameters(self, param=None) -> None:
         print(f'\nCurrent parameters:')
-        for parameter, value in self.parameters.items():
+        if not param:
+            param = self.selected_df.parameters
+        for parameter, value in param.items():
             print(f'  {parameter}: {value}')
+        print()
 
     def add_endpoints(self) -> None:
         self.view_endpoints()
@@ -184,7 +191,7 @@ class Api_site():
             while True:
                 print('\nList of current endpoints:')
                 self.list_items(self.endpoints)
-                choice = input('Enter the name of the endpoint you want to remove: ')
+                choice = input('Enter the name of the endpoint you want to remove: ').capitalize()
                 if choice in self.endpoints:
                     self.endpoints.pop(choice)
                     print('Endpoint removed successfully.')
@@ -196,6 +203,8 @@ class Api_site():
         else:
             print('Endpoint not removed.')
     
+    
+    
     def edit_endpoints(self) -> None:
         print('Which endpoint would you like to edit?')
         
@@ -204,6 +213,8 @@ class Api_site():
             endpoint_to_edit = display(self.endpoints, return_key=True)
             
             if self.are_you_sure():
+                # sets endpoint_to_edit to the value of the selected endpoint and removes it from the dictionary
+                endpoint_to_edit = endpoint_to_edit.pop(self.endpoints[endpoint_to_edit])
                 self.endpoints[endpoint_to_edit] = input('Enter new value: ')
                 print('Endpoint modified successfully.')
             choice = input('Do you want to modify another endpoint? (y/n) ')
@@ -236,7 +247,7 @@ class Api_site():
             parameter_to_edit = display(self.parameters, return_key=True)
             
             if self.are_you_sure():
-                self.parameters[parameter_to_edit] = None
+                self.parameters.remove(parameter_to_edit)
                 print('Parameter removed.')
             choice = input('Do you want to remove another parameter? (y/n) ')
             if choice.lower() != "y":
@@ -250,6 +261,7 @@ class Api_site():
             parameter_to_edit = display(self.parameters, return_key=True)
             
             if self.are_you_sure():
+                
                 self.parameters[parameter_to_edit] = input('Enter new value: ')
                 print('Parameter modified successfully.')
             choice = input('Do you want to modify another parameter? (y/n) ')

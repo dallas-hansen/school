@@ -29,6 +29,7 @@ def main():
     
     display(menu)
     save_data(api_classes_list, "sites")
+    
 
 if __name__ == "__main__":
     main()    

@@ -13,7 +13,10 @@ def box_decorator(func):
         items = func(*args, **kwargs)
 
         # Find the longest item in the list
-        max_length = max(len(item) for item in items)
+        if isinstance(items, dict):
+            max_length = max(len(key) for key in items.keys())
+        else:
+            max_length = max(len(item) for item in items)
         box_width = max_length + 2  # Add padding on each side
 
         print()
