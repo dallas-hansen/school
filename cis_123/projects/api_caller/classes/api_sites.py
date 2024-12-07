@@ -164,7 +164,7 @@ class Api_site():
     def view_parameters(self, param=None) -> None:
         print(f'\nCurrent parameters:')
         if not param:
-            param = self.selected_df.parameters
+            param = self.parameters
         for parameter, value in param.items():
             print(f'  {parameter}: {value}')
         print()

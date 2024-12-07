@@ -31,11 +31,11 @@ class Data:
         """
         self.sub_menu = {
             "Back": 'back',
-            "Search": self.search,
             "Data": {
                 "Back": 'back',
                 "View size": self.view_data_size
-            }
+            },
+            "Search": self.search
         }
     
     def json_to_df(self, response) -> pd.DataFrame:
@@ -88,6 +88,7 @@ class Data:
 
             # Increment the page number for the next request
             self.params['page[number]'] = str(int(self.params['page[number]']) + 1)
+        self.params['page[number]'] = '1'
 
         return
     

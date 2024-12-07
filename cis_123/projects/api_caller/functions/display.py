@@ -11,8 +11,10 @@ def display(menu: dict, return_key=False, title=None) -> str | None:
         print("\nChoose an option:")
         options = list(menu.keys())  # Get all the options in the current menu
         
+        max_key_length = max(len(key) for key in options)
+        
         for i, option in enumerate(options, 1):
-            print(f"{i}. {option.capitalize()}")
+            print(f"{i}. {option.capitalize().ljust(max_key_length)}")
         
         choice = input("\nEnter your choice: ")
 
