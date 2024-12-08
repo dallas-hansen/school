@@ -27,13 +27,12 @@ class Treasury(Api_site):
         self.selected_df = display(self.data)
         return
     
-    def choose_axis(self, side) -> list:
+    def choose_axis(self, df, side) -> list:
         axis = []
         while True:
             print(f'What would you like to use as the {side}-axis?')
-            columns = {x : x for x in self.selected_df.columns}
-            columns['Parent Department'] = self.departments
-            choice = display(columns)
+            columns = {x : x for x in df.columns}
+            choice = display(columns, key_only=True)
             if choice == 'Back':
                 return
             axis.append(choice)
@@ -64,9 +63,11 @@ class Treasury(Api_site):
         # Add a new column for parent departments
         df['parent_department'] = df['transaction_catg'].map(sub_to_parent)
         
-        x_axis = self.choose_axis('x')
-        y_axis = self.choose_axis('y')
-        visualize_data(self.selected_df, x_axis, y_axis)
+        x_axis = self.choose_axis(df, 'x')
+        y_axis = self.choose_axis(df, 'y')
+        print(df['parent_department'].unique())
+        if self.are_you_sure():
+            visualize_data(df, x_axis, y_axis)
         return
     
     def get_departments(self, print=False) -> dict:
@@ -80,7 +81,6 @@ class Treasury(Api_site):
             departments = {}
             for i in data_list:
                 # TODO: Type error Bool is not callable. I think I'm getting a series of bools from data_list
-                print(i)
                 try:
                     if ' - ' in i:  # Only split if ' - ' is present
                         code, name = i.split(' - ', maxsplit=1)

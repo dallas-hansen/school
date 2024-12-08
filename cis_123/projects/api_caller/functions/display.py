@@ -61,7 +61,7 @@ def display(original_menu: dict, return_key=False, root=False, key_only=True) ->
                 selected_value()
         
         except ValueError as e:
-            raise ValueError("Invalid input. Please enter a number.") from e
+            print("Invalid choice. Please enter a number.")
             
 def visualize_data(df: pd.DataFrame, x_axis: list, y_axis: list) -> None:
     color_mapping = {'Deposits': 'green', 'Withdrawals': 'red'}
@@ -73,9 +73,11 @@ def visualize_data(df: pd.DataFrame, x_axis: list, y_axis: list) -> None:
     # Assign colors for the grouped data
     grouped_df['color'] = grouped_df['transaction_type'].map(color_mapping)
 
+    
+    
     # Plot the results
     plt.figure(figsize=(10, 6))
-    plt.bar(grouped_df['parent_department'], grouped_df['transaction_today_amt'], color=grouped_df['color'])
+    plt.bar(grouped_df['parent_department'], grouped_df[y_axis], color=grouped_df['color'])
     plt.xlabel('Parent Department')
     plt.ylabel('Total FYTD Amount')
     plt.title('Total FYTD Amount by Parent Department')
