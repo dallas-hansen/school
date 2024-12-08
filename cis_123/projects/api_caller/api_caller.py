@@ -27,7 +27,7 @@ def main():
     
     menu = initialize_menu(api_classes_list)
     
-    display(menu)
+    display(menu, root=True)
     save_data(api_classes_list, "sites")
     
 

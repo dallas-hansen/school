@@ -15,7 +15,7 @@ class Api_site():
         self.menu = {}
         self.page_size = None
         self.data = {}
-        self.selected_df =None
+        self.selected_df = None
     
     @box_decorator
     def list_items(self, input_list: list) -> None:
@@ -30,11 +30,14 @@ class Api_site():
         # verifies that the parameters are correct, if not, allows user to edit
         self.view_parameters()
         parameters = self.parameters
-        proceed = input('Are these parameters correct? (y/n)')
-        if proceed.lower() == 'n':
+        proceed = input('Are these parameters correct? (y/n)\n').lower()
+        if proceed == 'n':
             while True:
                 print('\nPlease select a parameter to edit.')
-                key = display(parameters, return_key=True)
+                parameters = {x : x for x in self.parameters}
+                key = display(parameters)
+                if key == 'Back':
+                    break
                 print('Refer to API documentation for possible values.')
                 value = input('Enter new value: ')
                 parameters[key] = value
@@ -48,6 +51,8 @@ class Api_site():
         # user selects endpoint
         print('Which endpoint would you like to search?')
         endpoint = display(self.endpoints)
+        if endpoint == 'Back':
+            return
         url = self.url + endpoint
         query = Data(url=url, params=parameters)
         
@@ -70,7 +75,7 @@ class Api_site():
         query.search()
         print('Search complete.')
         print('Current selection updated.')
-        self.selected_df = query
+        self.selected_df = query.df
         param_str = ''
         for key, item in query.params.items():
             param_str += f'{key}: {item}\n'
@@ -86,7 +91,6 @@ class Api_site():
         Returns: None
         """
         menu = {
-            "Back": 'back',
             "Change name": self.change_name,
             "Change url": self.change_url,
             "Edit endpoints": {
@@ -210,7 +214,10 @@ class Api_site():
         
         while True:
             self.view_endpoints()
-            endpoint_to_edit = display(self.endpoints, return_key=True)
+            endpoint_dict = {x : x for x in self.endpoints}
+            endpoint_to_edit = display(endpoint_dict)
+            if endpoint_to_edit == 'Back':
+                return
             
             if self.are_you_sure():
                 # sets endpoint_to_edit to the value of the selected endpoint and removes it from the dictionary
@@ -244,7 +251,8 @@ class Api_site():
         
         while True:
             self.view_parameters()
-            parameter_to_edit = display(self.parameters, return_key=True)
+            parameter_dict = {x : x for x in self.parameters}
+            parameter_to_edit = display(parameter_dict)
             
             if self.are_you_sure():
                 self.parameters.remove(parameter_to_edit)
@@ -258,7 +266,11 @@ class Api_site():
         
         while True:
             self.view_parameters()
-            parameter_to_edit = display(self.parameters, return_key=True)
+            parameter_dict = {x : x for x in self.parameters}
+            parameter_to_edit = display(parameter_dict)
+            print('you chose ', parameter_to_edit)
+            if parameter_to_edit == 'Back':
+                return
             
             if self.are_you_sure():
                 

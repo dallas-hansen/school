@@ -30,7 +30,6 @@ class Data:
         Follow the format shown below. Use nested dictionaries to create sub menus.
         """
         self.sub_menu = {
-            "Back": 'back',
             "Data": {
                 "Back": 'back',
                 "View size": self.view_data_size
