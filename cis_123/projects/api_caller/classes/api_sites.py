@@ -5,7 +5,6 @@ from classes.data import Data
 from datetime import datetime
 
 class Api_site():
-    
     def __init__(self, name, menu={}):
         self.name = name.lower()
         self.url = None

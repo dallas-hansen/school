@@ -27,53 +27,29 @@ class Treasury(Api_site):
         self.selected_df = display(self.data)
         return
     
-    def choose_axis(self, df, side) -> list:
-        axis = []
-        while True:
-            print(f'\nWhat would you like to use as the {side}-axis?')
-            columns = {x : x for x in df.columns}
-            choice = display(columns, key_only=True)
-            if choice == 'Back':
-                return
-            axis.append(choice)
-            
-            if side == 'x':
-                if input('Would you like to add another? (y/n) ').lower() != 'n':
-                    continue
-                return axis
-            return axis[0]
-            
-    
     def view_data(self):
-        # Create a bar chart
         if self.selected_df is None:
             if not self.data:
                 print('No data found. Please search for data.')
                 return
         self.get_departments()
+        df = self.clean_data()
+        choices = {
+            'Day': 'transaction_today_amt',
+            'Month': 'transaction_mtd_amt',
+            'Year': 'transaction_fytd_amt'
+        }
+        x_axis = ['parent_department', 'transaction_type']
         
-        df = self.selected_df.dropna(subset=['transaction_catg'])
-        remove = [
-            'Sub-Total Deposits',
-            'Sub-Total Withdrawals',
-            'Public Debt Cash Issues (Table IIIB)',
-            'Public Debt Cash Redemp. (Table IIIB)'
-            ]
-        df = df[~df['transaction_catg'].isin(remove)]
-        
-        # Create a mapping of sub-departments to parent departments
-        sub_to_parent = {f'{parent} - {sub}': parent for parent, sub_departments in self.departments.items() for sub in sub_departments}
-        # Add a new column for parent departments
-        # TODO: parent_department not properly mapping
-        df['parent_department'] = df['transaction_catg'].map(sub_to_parent)
-        for k, v in df.items():
-            print(f'{k} - {v}')
-        
-        x_axis = self.choose_axis(df, 'x')
-        y_axis = self.choose_axis(df, 'y')
-        print(df['parent_department'].unique())
-        if self.are_you_sure():
-            visualize_data(df, x_axis, y_axis)
+        print(f'\nWhat would you like to use as the y-axis?')
+        y_axis_label = display(choices, return_key=True)
+        print(f"Debug - y_axis_label: {y_axis_label}")
+        print(f"Debug - chosen_y_axis: {choices[y_axis_label]}")
+        chosen_y_axis = choices[y_axis_label]
+        if y_axis_label == 'Back':
+            return
+        print('Visualizing data...')
+        visualize_data(df, x_axis, chosen_y_axis, y_axis_label)
         return
     
     def clean_data(self):
@@ -87,10 +63,17 @@ class Treasury(Api_site):
         df = df[~df['transaction_catg'].isin(remove)]
         
         # Create a mapping of sub-departments to parent departments
-        sub_to_parent = {sub: parent for parent, sub_departments in self.departments.items() for sub in sub_departments}
+        sub_to_parent = {f'{parent} - {sub}': parent for parent, sub_departments in self.departments.items() for sub in sub_departments}
+        
+        # Add a new column for parent departments
+        df['parent_department'] = df['transaction_catg'].map(sub_to_parent)
+        
+        # Create a mapping of sub-departments to parent departments
+        sub_to_parent = {f'{parent} - {sub}': parent for parent, sub_departments in self.departments.items() for sub in sub_departments}
 
         # Add a new column for parent departments
         df['parent_department'] = df['transaction_catg'].map(sub_to_parent)
+        return df
     
     def get_departments(self, print_departments=False) -> dict:
         if self.departments:
