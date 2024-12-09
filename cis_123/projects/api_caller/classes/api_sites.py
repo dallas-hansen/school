@@ -29,23 +29,24 @@ class Api_site():
         # verifies that the parameters are correct, if not, allows user to edit
         self.view_parameters()
         parameters = self.parameters
-        proceed = input('Are these parameters correct? (y/n)\n').lower()
-        if proceed == 'n':
-            while True:
-                print('\nPlease select a parameter to edit.')
-                parameters = {x : x for x in self.parameters}
-                key = display(parameters)
-                if key == 'Back':
-                    break
-                print('Refer to API documentation for possible values.')
-                value = input('Enter new value: ')
-                parameters[key] = value
-                for key, value in parameters.items():
-                    print(f'{key}: {value}')
-                proceed = input('Are these parameters correct? (y/n)\n').lower()
-                if proceed == 'y':
-                    print()
-                    break
+        # TODO: allow user to edit parameters
+        # proceed = input('Are these parameters correct? (y/n)\n').lower()
+        # if proceed == 'n':
+        #     while True:
+        #         print('\nPlease select a parameter to edit.')
+        #         parameters = {x : x for x in self.parameters}
+        #         key = display(parameters)
+        #         if key == 'Back':
+        #             break
+        #         print('Refer to API documentation for possible values.')
+        #         value = input('Enter new value: ')
+        #         parameters[key] = value
+        #         for key, value in parameters.items():
+        #             print(f'{key}: {value}')
+        #         proceed = input('Are these parameters correct? (y/n)\n').lower()
+        #         if proceed == 'y':
+        #             print()
+        #             break
         
         # user selects endpoint
         print('Which endpoint would you like to search?')
@@ -115,6 +116,9 @@ class Api_site():
             "Reset": self.reset
             }
         return menu
+    
+    def not_fully_implemented(self) -> None:
+        print('This feature is not fully implemented yet. Changes here may break the code.')
     
     def are_you_sure(self) -> bool:
         while True:
@@ -208,6 +212,7 @@ class Api_site():
     
     
     def edit_endpoints(self) -> None:
+        self.not_fully_implemented()
         print('Which endpoint would you like to edit?')
         
         while True:
@@ -260,13 +265,15 @@ class Api_site():
                 return
     
     def edit_parameters(self) -> None:
+        self.not_fully_implemented()
         print('Which parameter would you like to edit?')
         
         while True:
             self.view_parameters()
             parameter_dict = {x : x for x in self.parameters}
             parameter_to_edit = display(parameter_dict)
-            print('you chose ', parameter_to_edit)
+            print(f'you chose {parameter_to_edit}')
+            print(self.parameters)
             if parameter_to_edit == 'Back':
                 return
             
