@@ -12,9 +12,9 @@ class Api_site():
         self.endpoints = {}
         self.parameters = {}
         self.main_menu = menu
-        self.menu = {}
+        self.menu = {} # key = name, value = function
         self.page_size = None
-        self.data = {}
+        self.data = {} # key = parameters, value = Dataframe
         self.selected_df = None
     
     @box_decorator

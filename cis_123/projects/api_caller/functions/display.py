@@ -84,3 +84,4 @@ def visualize_data(df: pd.DataFrame, x_axis: list, y_axis: list) -> None:
     plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
     plt.show()
+    return

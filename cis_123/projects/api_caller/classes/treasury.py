@@ -30,14 +30,18 @@ class Treasury(Api_site):
     def choose_axis(self, df, side) -> list:
         axis = []
         while True:
-            print(f'What would you like to use as the {side}-axis?')
+            print(f'\nWhat would you like to use as the {side}-axis?')
             columns = {x : x for x in df.columns}
             choice = display(columns, key_only=True)
             if choice == 'Back':
                 return
             axis.append(choice)
-            if input('Would you like to add another? (y/n) ').lower() == 'n':
+            
+            if side == 'x':
+                if input('Would you like to add another? (y/n) ').lower() != 'n':
+                    continue
                 return axis
+            return axis[0]
             
     
     def view_data(self):
@@ -58,10 +62,12 @@ class Treasury(Api_site):
         df = df[~df['transaction_catg'].isin(remove)]
         
         # Create a mapping of sub-departments to parent departments
-        sub_to_parent = {sub: parent for parent, sub_departments in self.departments.items() for sub in sub_departments}
-
+        sub_to_parent = {f'{parent} - {sub}': parent for parent, sub_departments in self.departments.items() for sub in sub_departments}
         # Add a new column for parent departments
+        # TODO: parent_department not properly mapping
         df['parent_department'] = df['transaction_catg'].map(sub_to_parent)
+        for k, v in df.items():
+            print(f'{k} - {v}')
         
         x_axis = self.choose_axis(df, 'x')
         y_axis = self.choose_axis(df, 'y')
@@ -70,9 +76,25 @@ class Treasury(Api_site):
             visualize_data(df, x_axis, y_axis)
         return
     
-    def get_departments(self, print=False) -> dict:
+    def clean_data(self):
+        df = self.selected_df.dropna(subset=['transaction_catg'])
+        remove = [
+            'Sub-Total Deposits',
+            'Sub-Total Withdrawals',
+            'Public Debt Cash Issues (Table IIIB)',
+            'Public Debt Cash Redemp. (Table IIIB)'
+        ]
+        df = df[~df['transaction_catg'].isin(remove)]
+        
+        # Create a mapping of sub-departments to parent departments
+        sub_to_parent = {sub: parent for parent, sub_departments in self.departments.items() for sub in sub_departments}
+
+        # Add a new column for parent departments
+        df['parent_department'] = df['transaction_catg'].map(sub_to_parent)
+    
+    def get_departments(self, print_departments=False) -> dict:
         if self.departments:
-            if print:
+            if print_departments:
                 for k, v in self.departments.items():
                     print(f'{k} - {v}')
             return self.departments
@@ -80,7 +102,6 @@ class Treasury(Api_site):
             data_list = list(self.selected_df['transaction_catg'].dropna().unique())
             departments = {}
             for i in data_list:
-                # TODO: Type error Bool is not callable. I think I'm getting a series of bools from data_list
                 try:
                     if ' - ' in i:  # Only split if ' - ' is present
                         code, name = i.split(' - ', maxsplit=1)
@@ -99,5 +120,5 @@ class Treasury(Api_site):
                             departments[code] = [name]
                 except ValueError:
                     print(f'Value Error: {i}')
-                self.departments = departments
+            self.departments = departments
             return self.departments
