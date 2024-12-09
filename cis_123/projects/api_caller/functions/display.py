@@ -64,6 +64,9 @@ def visualize_data(df: pd.DataFrame, x_axis: list, y_axis: str, y_axis_label=Non
     color_mapping = {'Deposits': 'green', 'Withdrawals': 'red'}
     df['color'] = df['transaction_type'].map(color_mapping).fillna('gray')
 
+    # Adjust withdrawals to be negative
+    df.loc[df['transaction_type'] == 'Withdrawals', y_axis] *= -1
+
     # Group by parent department and sum the amounts
     grouped_df = df.groupby(x_axis, as_index=False)[y_axis].sum()
 
@@ -93,29 +96,19 @@ def visualize_data(df: pd.DataFrame, x_axis: list, y_axis: str, y_axis_label=Non
     # Apply the custom tick formatting to the y-axis
     plt.gca().yaxis.set_major_formatter(ticker.FuncFormatter(format_ticks))
 
-    # Add total value above each bar, rotated
-    for bar, value in zip(bars, grouped_df[y_axis]):
-        plt.text(
-            bar.get_x() + bar.get_width() / 2,  # X position (center of bar)
-            bar.get_height() + (0.01 * grouped_df[y_axis].max()),  # Y position (slightly above the bar)
-            f'{value:,.0f}',  # Formatted value
-            ha='center', va='bottom', fontsize=8, color='black',
-            rotation=45  # Rotate the text
-        )
-
     # Add a legend for the color mapping
     legend_elements = [
         plt.Line2D([0], [0], color='green', lw=4, label='Deposits'),
-        plt.Line2D([0], [0], color='red', lw=4, label='Withdrawal')
+        plt.Line2D([0], [0], color='red', lw=4, label='Withdrawals')
     ]
     plt.legend(handles=legend_elements, loc='upper center')
 
     # Rotate x-axis labels and adjust layout for readability
     plt.xticks(rotation=45, ha='right')
+    plt.axhline(0, color='black', linewidth=0.8)  # Add x-axis at y=0 for clarity
     plt.tight_layout()
 
     # Show the plot
     plt.show()
 
     return
-

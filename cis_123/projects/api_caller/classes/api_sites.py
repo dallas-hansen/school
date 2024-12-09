@@ -57,12 +57,11 @@ class Api_site():
         
         # checks to see if data already exists
         for key, item in self.data.items():
-            print(item.rows)
             if item.params == query.params and item.url == query.url:
                 item.last_accessed = datetime.now()
                 print('Data already exists.')
                 print(f'Last accessed: {item.last_accessed}')
-                print(f'Total entries: {item.rows}')
+                print(f'Total entries: {item.df.shape[0]}')
                 choice = input('Do you want to use this data? (y/n) ').lower()
                 if choice == 'n':
                     break
