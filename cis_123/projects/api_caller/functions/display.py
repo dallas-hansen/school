@@ -80,7 +80,7 @@ def visualize_data(df: pd.DataFrame, x_axis: list, y_axis: str, y_axis_label=Non
     plt.ylabel(f'Total {y_axis_label.lower()} amount (USD)')
 
     # Add title
-    plt.title(f'Previous {y_axis_label.capitalize()} by Parent Department')
+    plt.title(f'{y_axis_label.capitalize()} by Parent Department')
 
     # Custom tick formatting for the y-axis (dynamic scaling based on values)
     def format_ticks(value, tick_number):

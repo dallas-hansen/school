@@ -33,7 +33,7 @@ class Treasury(Api_site):
                 print('No data found. Please search for data.')
                 return
         self.get_departments()
-        df = self.clean_data()
+        df = self.clean_data(self.selected_df)
         choices = {
             'Day': 'transaction_today_amt',
             'Month': 'transaction_mtd_amt',
@@ -52,8 +52,8 @@ class Treasury(Api_site):
         visualize_data(df, x_axis, chosen_y_axis, y_axis_label)
         return
     
-    def clean_data(self):
-        df = self.selected_df.dropna(subset=['transaction_catg'])
+    def clean_data(self, original_df: pd.DataFrame) -> pd.DataFrame:
+        df = original_df.dropna(subset=['transaction_catg'])
         remove = [
             'Sub-Total Deposits',
             'Sub-Total Withdrawals',
