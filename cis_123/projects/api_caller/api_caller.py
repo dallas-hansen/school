@@ -20,6 +20,7 @@ def initialize_menu(api_class_list) -> dict:
 
 def main():
     # TODO: Add support for more APIs
+    # creates list of API classes from file
     api_classes_list = load_data("sites")
     if not api_classes_list:
         print("Adding default APIs...")

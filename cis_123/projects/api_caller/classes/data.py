@@ -1,19 +1,15 @@
 import os
-import re
 import sys
 import requests
 import pandas as pd
-import plotly.express as px
-import matplotlib.pyplot as plt
 import xml.etree.ElementTree as ET
 from io import StringIO
 from datetime import datetime
 from dataclasses import dataclass, field
 
+# Was necessary for use in jupyter notebooks, might not be needed anymore
 parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 sys.path.append(parent_dir)
-
-from functions.display import display
 
 
 @dataclass

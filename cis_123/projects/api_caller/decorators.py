@@ -1,3 +1,4 @@
+# creates a separator around a function
 def separator(symbol='-', length=50) -> None:
     def decorator(func):
         def wrapper(*args, **kwargs):
@@ -7,6 +8,7 @@ def separator(symbol='-', length=50) -> None:
         return wrapper 
     return decorator
 
+# creates a box around a function
 def box_decorator(func):
     def wrapper(*args, **kwargs):
         # Call the original function and get the list of items
