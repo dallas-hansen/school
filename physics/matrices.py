@@ -1,19 +1,30 @@
 import numpy as np
 import math
 
-matrix = np.array([
-    [3, -4, -2], 
-    [-7, 4, 1], 
-    [1, -7, 4]
+test_matrix = np.array([
+    [0, 40, 0], 
+    [-20, 0, 0], 
+    [60*math.cos(math.pi/4), 60*math.sin(math.pi/4), 0],
+    [0, 50, 0]
 ])
 
-A = matrix[0]
-B = matrix[1]
-C = matrix[2]
+def matrix_sum(matrix) -> np.ndarray:
+    return np.sum(matrix, axis=0)
 
-vector_sum = A + B + C
-displacement = math.sqrt(vector_sum[0] ** 2 + vector_sum[1] ** 2 + vector_sum[2] ** 2)
+def displacement(vector) -> float:
+    return np.linalg.norm(vector)
 
+def distance(matrix) -> float:
+    return sum(np.linalg.norm(vector) for vector in matrix)
 
-print(f'Vector sum: {vector_sum}')
-print(f'Displacement: {displacement}')
+total_displacement = displacement(matrix_sum(test_matrix))
+total_distance = distance(test_matrix)
+
+# print(f'Total displacement: {total_displacement}')
+# print(f'Total distance: {total_distance}')
+A = np.array([-19.2e3*math.cos(np.radians(25)), -19.2e3*math.sin(np.radians(25)), 800])
+B = np.array([-17.6e3*math.cos(np.radians(20)), -17.6e3*math.sin(np.radians(20)), 1100])
+
+M = A - B
+
+print(displacement(A - B))
