@@ -1,32 +1,123 @@
-def get_delta_x(delta_t, initial_velocity, final_velocity):
-    delta_x = delta_t * (initial_velocity + final_velocity) / 2
-    print(f'\u0394x = {delta_x}m')
-    return delta_x
+import math
 
-def get_delta_x(delta_t, initial_velocity, acceleration):
-    delta_x = initial_velocity * delta_t + (acceleration * delta_t ** 2) / 2
-    print(f'\u0394x = {delta_x}m')
-    return delta_x
+class Kinematics:
+    
+    # Finding displacement
+    @staticmethod
+    def displacement__v0_a_t(v0, a, t):
+        displacement = v0 * t + 0.5 * a * t**2
+        print(f'Displacement: {displacement} m')
+        return displacement
 
-def get_delta_x(initial_velocity, final_velocity, acceleration):
-    delta_x = (final_velocity ** 2 - initial_velocity ** 2) / (2 * acceleration)
-    print(f'\u0394x = {delta_x}m')
-    return delta_x
+    @staticmethod
+    def displacement__v0_v_a(v0, v, a):
+        displacement = (v**2 - v0**2) / (2 * a)
+        print(f'Displacement: {displacement} m')
+        return displacement
 
+    @staticmethod
+    def displacement__v0_v_t(v0, v, t):
+        displacement = ((v0 + v) / 2) * t
+        print(f'Displacement: {displacement} m')
+        return displacement
+    
+    
+    # Finding initial velocity
+    @staticmethod
+    def v0__v_a_t(v, a, t):
+        initial_velocity = (v - a * t)
+        print(f'Initial velocity: {initial_velocity} m/s')
+        return initial_velocity
+    
+    @staticmethod
+    def v0__displacement_v_a(displacement, v, a):
+        initial_velocity = math.sqrt(v**2 - 2 * a * displacement)
+        print(f'Initial velocity: {initial_velocity} m/s')
+        return initial_velocity
+    
+    @staticmethod
+    def v0__displacement_a_t(displacement, a, t):
+        initial_velocity = (displacement - (0.5 * a * t**2)) / t
+        print(f'Initial velocity: {initial_velocity} m/s')
+        return initial_velocity
+    
+    @staticmethod
+    def v0__displacement_v_t(displacement, v, t):
+        initial_velocity = (2 * displacement / t) - v
+        print(f'Initial velocity: {initial_velocity} m/s')
+        return initial_velocity
+    
+    
+    # Finding final velocity
+    @staticmethod
+    def v__displacement_v0_t(displacement, v0, t):
+        final_velocity = (2 * displacement / t) - v0
+        print(f'Final velocity: {final_velocity} m/s')
+        return final_velocity
+    
+    @staticmethod
+    def v__v0_a_t(v0, a, t):
+        final_velocity = v0 + a * t
+        print(f'Final velocity: {final_velocity} m/s')
+        return final_velocity
+    
+    @staticmethod
+    def v__displacement_v0_a(displacement, v0, a):
+        final_velocity = math.sqrt(v0**2 + 2 * a * displacement)
+        print(f'Final velocity: {final_velocity} m/s')
+        return final_velocity
+    
+    
+    # Finding acceleration
+    @staticmethod
+    def a__v0_v_t(v0, v, t):
+        acceleration = (v - v0) / t
+        print(f'Acceleration: {acceleration} m/s/s')
+        return acceleration
+    
+    @staticmethod
+    def a__displacement_v0_t(displacement, v0, t):
+        acceleration = 2 * (displacement - v0 * t) / t**2
+        print(f'Acceleration: {acceleration} m/s/s')
+        return acceleration
+    
+    @staticmethod
+    def a__displacement_v0_v(displacement, v0, v):
+        acceleration = (v**2 - v0**2) / (2 * displacement)
+        print(f'Acceleration: {acceleration} m/s/s')
+        return acceleration
+    
+    
+    # Finding time
+    @staticmethod
+    def t__v0_v_a(v0, v, a):
+        time = (v - v0) / a
+        print(f'Time: {time} s')
+        return time
+    
+    @staticmethod
+    def t__displacement_v0_v(displacement, v0, v):
+        time = (2 * displacement) / (v + v0)
+        print(f'Time: {time} s')
+        return time
+    
+    @staticmethod
+    def t__displacement_v0_a(displacement, v0, a):
+        discriminant = math.sqrt(v0**2 - 2 * a * (-displacement))
+        pos = (-v0 + discriminant) / a
+        neg = (-v0 - discriminant) / a
+        print(pos, neg)
+        if pos > 0 and neg > 0:
+            print(f'Time: {max(pos, neg)-min(pos, neg)} s')
+        elif pos > 0 or neg > 0:
+            print(f'Time: {max(pos, neg)} s')
+        else:
+            print('No solution')
 
+# Each is named in the order of the parameters. 
+# In the example below v0 is unknown 
+# displacement, v=final velocity, a=acceleration are the known parameters.
+# Make sure you have them in the correct order
+# Kinematics.v0__displacement_v_a(1.25, 0, -9.81)
 
-def get_delta_t(delta_x, initial_velocity, final_velocity):
-    delta_t = delta_x / (initial_velocity + final_velocity)
-    print(f'\u0394t = {delta_t}')
-    return delta_t
-
-
-
-
-def get_acceleration(delta_t, initial_velocity, final_velocity):
-    acceleration = (final_velocity - initial_velocity) / delta_t
-    print(f'Acceleration = {acceleration}')
-    return acceleration
-
-
-get_delta_x(delta_t=480, initial_velocity=4, acceleration=.05)
+Kinematics.t__displacement_v0_a(7, 15, -9.81)
