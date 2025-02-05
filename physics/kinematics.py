@@ -1,6 +1,6 @@
 import math
 
-class Kinematics:
+class Kinematic:
     
     # Finding displacement
     @staticmethod
@@ -118,6 +118,4 @@ class Kinematics:
 # In the example below v0 is unknown 
 # displacement, v=final velocity, a=acceleration are the known parameters.
 # Make sure you have them in the correct order
-# Kinematics.v0__displacement_v_a(1.25, 0, -9.81)
-
-Kinematics.t__displacement_v0_a(7, 15, -9.81)
+# Kinematic.v0__displacement_v_a(1.25, 0, -9.81)
