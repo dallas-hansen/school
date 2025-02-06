@@ -1,0 +1,32 @@
+import math
+from conversions import Conversion
+
+class Projectile:
+    @staticmethod
+    def distance__no_air_resistance(height, angle, initial_velocity, acceleration=9.81):
+        """Determines the distance a projectile will travel without air resistance
+
+        Args:
+            v0 (float): Initial velocity
+            height (float): Starting height
+            angle (float, degrees): Will be converted to radians
+            acceleration (float, optional): Defaults to 9.81.
+        """
+        angle = Conversion.degrees_to_radians(angle)
+        velocity_x = initial_velocity * math.cos(angle)
+        velocity_y = initial_velocity * math.sin(angle)
+        
+        discriminant = velocity_y**2 + (2 * acceleration * height)
+        
+        # Makes sure we're getting a real number
+        if discriminant > 0:
+            delta_t_add = (velocity_y + math.sqrt(discriminant)) / acceleration
+            delta_t_min = (velocity_y - math.sqrt(discriminant)) / acceleration
+            
+            delta_t = max(delta_t_add, delta_t_min)
+            delta_x = velocity_x * delta_t
+            print(f'Time = {delta_t:.2f} s')
+            print(f'\u0394X = {delta_x:.4f} m')
+            
+        else:
+            print('No real solution')
