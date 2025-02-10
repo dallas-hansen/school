@@ -12,4 +12,6 @@ import numpy as np
 #     height += 0.01
 
 # Projectile.distance__no_air_resistance(.115, 28.5, 6)
-Projectile.distance__no_air_resistance(.1, 28.5, 6)
+# Projectile.distance__no_air_resistance()
+
+# Projectile.velocity__no_air_resistance(25, 60, 43)
