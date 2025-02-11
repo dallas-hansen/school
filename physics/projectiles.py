@@ -1,3 +1,4 @@
+from ast import Num
 import math
 from conversions import Conversion
 
@@ -32,4 +33,16 @@ class Projectile:
             print('No real solution')
         
         return delta_x
+    
+    @staticmethod
+    def velocity__no_air_resistance(height, displacement, angle, acceleration=9.81):
+        angle = Conversion.degrees_to_radians(angle)
+        
+        numerator = acceleration * (displacement ** 2)
+        denominator = 2 * -math.cos(angle) ** 2 * (height - displacement * math.tan(angle))
+        
+        initial_velocity = math.sqrt(numerator / denominator)
+        
+        print(f'Initial velocity: {initial_velocity:.4f} m/s')
+        return initial_velocity
     
