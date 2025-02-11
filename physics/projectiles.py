@@ -32,3 +32,4 @@ class Projectile:
             print('No real solution')
         
         return delta_x
+    
