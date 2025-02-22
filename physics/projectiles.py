@@ -33,6 +33,7 @@ class Projectile:
             print('No real solution')
         
         return delta_x
+   
     
     @staticmethod
     def velocity__no_air_resistance(height, displacement, angle, acceleration=9.81):
