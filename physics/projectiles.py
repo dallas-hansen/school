@@ -1,4 +1,3 @@
-from ast import Num
 import math
 from conversions import Conversion
 
@@ -26,9 +25,11 @@ class Projectile:
             
             delta_t = max(delta_t_add, delta_t_min)
             delta_x = velocity_x * delta_t
-            print(f'Time = {delta_t:.2f} s')
+            print(f'Split velocitys: {velocity_x} m/s, {velocity_y} m/s')
+            print(f'Time = {delta_t} s')
             print(f'\u0394X = {delta_x:.4f} m')
-            
+            print(f'Min/Max: {delta_t_min:.4f} s, {delta_t_add:.4f} s')
+            print(f'Discriminant: {discriminant:.4f}')
         else:
             print('No real solution')
         
@@ -47,3 +48,4 @@ class Projectile:
         print(f'Initial velocity: {initial_velocity:.4f} m/s')
         return initial_velocity
     
+Projectile.distance__no_air_resistance(.115, 28.5, 6)

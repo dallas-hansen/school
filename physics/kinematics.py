@@ -92,27 +92,38 @@ class Kinematic:
     @staticmethod
     def t__v0_v_a(v0, v, a):
         time = (v - v0) / a
-        print(f'Time: {time} s')
+        # print(f'Time: {time} s')
         return time
     
     @staticmethod
     def t__displacement_v0_v(displacement, v0, v):
         time = (2 * displacement) / (v + v0)
-        print(f'Time: {time} s')
+        # print(f'Time: {time} s')
         return time
     
     @staticmethod
     def t__displacement_v0_a(displacement, v0, a):
-        discriminant = math.sqrt(v0**2 - 2 * a * (-displacement))
+        if a == 0:
+            return "Acceleration cannot be zero"
+        
+        discriminant_value = v0**2 + (2 * a * displacement)
+
+        if discriminant_value < 0:
+            return "No real solution"
+
+        discriminant = math.sqrt(discriminant_value)
+        
         pos = (-v0 + discriminant) / a
         neg = (-v0 - discriminant) / a
-        print(pos, neg)
+
+        # Determine valid time solutions
         if pos > 0 and neg > 0:
-            print(f'Time: {max(pos, neg)-min(pos, neg)} s')
+            return max(pos, neg) - min(pos, neg)  # Time difference
         elif pos > 0 or neg > 0:
-            print(f'Time: {max(pos, neg)} s')
+            return max(pos, neg)  # Only return the positive time
         else:
-            print('No solution')
+            return "No real solution"
+
 
 # Each is named in the order of the parameters. 
 # In the example below v0 is unknown 

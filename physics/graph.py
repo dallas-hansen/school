@@ -21,8 +21,12 @@ sns.regplot(x='Time (s)', y='Distance (m)', data=df, order=2, ci=None)
 x_max = df['Time (s)'].max()
 y_max = df['Distance (m)'].max()
 
-equation = f"y = {a:.4f}x² + {b:.4f}x + {c:.4f}\nR² = {r_value:.4f}"
+equation = f"R² = {r_value:.4f}"
 plt.text(x_max - .001, y_max - .005, equation, fontsize=12, color="black", alpha=0.5)
 plt.title('Velocity of spring propelled ball')
 plt.show()
+
+
+
+
 
