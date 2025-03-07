@@ -111,7 +111,7 @@ class Kinematic:
         if discriminant_value < 0:
             return "No real solution"
 
-        discriminant = math.sqrt(discriminant_value)
+        discriminant = discriminant_value ** 0.5
         
         pos = (-v0 + discriminant) / a
         neg = (-v0 - discriminant) / a
