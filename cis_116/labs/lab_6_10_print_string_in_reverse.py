@@ -8,10 +8,13 @@ user_input = input()
 #     print()
 #     user_input = input()
 
-while user_input not in ending:
-    result = ""
-    for i in range(len(user_input)-1, -1, -1):
-        result += user_input[i]
-    print(result)
-    user_input = input()
+# while user_input not in ending:
+#     result = ""
+#     for i in range(len(user_input)-1, -1, -1):
+#         result += user_input[i]
+#     print(result)
+#     user_input = input()
 
+while text not in ending:
+    print(text[::-1])
+    text = input()
